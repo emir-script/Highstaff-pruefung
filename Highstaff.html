@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Admin High Staff Prüfung</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f9;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+}
+input[type="text"] {
+    padding: 5px;
+    margin: 5px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: center;
+}
+th {
+    background-color: #ddd;
+}
+.question {
+    text-align: left;
+}
+.total-box {
+    margin-top: 20px;
+    font-size: 18px;
+}
+.signature {
+    margin-top: 40px;
+}
+button {
+    padding: 10px 20px;
+    margin-top: 15px;
+}
+.pass {
+    color: green;
+    font-weight: bold;
+}
+.fail {
+    color: red;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Admin High Staff Prüfung</h1>
+
+<label>Prüfling: <input type="text"></label>
+<label>Ausbilder: <input type="text"></label>
+
+<table>
+<tr>
+    <th>Nr.</th>
+    <th>Frage</th>
+    <th>0 P</th>
+    <th>0,5 P</th>
+    <th>1 P</th>
+</tr>
+
+<script>
+const questions = [
+"Warum müssen Entscheidungen anderer High-Teammitglieder akzeptiert und respektiert werden?",
+"Was ist bei einem Uprank bezüglich Fairness gegenüber anderen Teammitgliedern zu beachten?",
+"Mit wem müssen Team-Kicks abgesprochen werden?",
+"Was muss bei Warns, Upranks oder Downranks zusätzlich beachtet werden?",
+"Wie darf das Regelwerk geändert werden?",
+"Was darf bei der Bearbeitung des Discord Servers nicht gelöscht werden?",
+"Wann dürfen Nachrichten gelöscht werden?",
+"Wie müssen neue Kanäle oder Kategorien gestaltet sein?",
+"Unter welchen Bedingungen dürfen Bots gekickt werden?",
+"Wie werden neue Bots dem Server hinzugefügt?"
+];
+
+for (let i = 0; i < questions.length; i++) {
+    document.write(`
+    <tr>
+        <td>${i+1}</td>
+        <td class="question">${questions[i]}</td>
+        <td><input type="radio" name="q${i}" value="0"></td>
+        <td><input type="radio" name="q${i}" value="0.5"></td>
+        <td><input type="radio" name="q${i}" value="1"></td>
+    </tr>
+    `);
+}
+
+function calculateScore() {
+    let total = 0;
+    for (let i = 0; i < questions.length; i++) {
+        const radios = document.getElementsByName("q"+i);
+        for (const radio of radios) {
+            if (radio.checked) {
+                total += parseFloat(radio.value);
+            }
+        }
+    }
+    document.getElementById("score").innerText = total.toFixed(1);
+
+    if (total >= 7) {
+        document.getElementById("result").innerText = "Bestanden";
+        document.getElementById("result").className = "pass";
+    } else {
+        document.getElementById("result").innerText = "Nicht Bestanden";
+        document.getElementById("result").className = "fail";
+    }
+}
+</script>
+
+</table>
+
+<button onclick="calculateScore()">Gesamtpunkte berechnen</button>
+
+<div class="total-box">
+    Gesamtpunkte: <span id="score">0</span> / 10<br>
+    Ergebnis: <span id="result">-</span>
+</div>
+
+<div class="signature">
+    ___________________________<br>
+    Unterschrift Ausbilder
+</div>
+
+</body>
+</html>
